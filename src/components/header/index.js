@@ -1,5 +1,13 @@
-import React from 'react';
 
+function Header() {
+  return (
+    <header>
+      <h1>RESTy</h1>
+    </header>
+  );
+}
+
+/*
 class Header extends React.Component {
   render() {
     return (
@@ -9,5 +17,5 @@ class Header extends React.Component {
     );
   }
 }
-
+*/
 export default Header;
