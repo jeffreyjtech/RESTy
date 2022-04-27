@@ -12,6 +12,6 @@ describe('Testing submission-results integration', () => {
     fireEvent.click(goButton);
   
     let resultsDisplay = screen.getByTestId('results-display');
-    expect(resultsDisplay).toHaveTextContent(/.*/);
+    expect(resultsDisplay).toHaveTextContent('Results');
   });
 })
