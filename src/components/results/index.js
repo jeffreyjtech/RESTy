@@ -3,16 +3,15 @@ import ReactJson from 'react-json-view';
 
 function Results({ data }) {
   return (
-    <>
+    <section data-testid="results-display">
       {data ?
-        <section>
+        (<>
           <span><em>Results</em></span>
           <ReactJson src={data} />
-        </section> :
-        <section>
-          <span><em>Waiting on response. . .</em></span>
-        </section>}
-    </>
+        </>) :
+        (<span><em>Waiting on response. . .</em></span>)
+      }
+    </section>
   );
 }
 
