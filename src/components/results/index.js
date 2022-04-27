@@ -1,10 +1,16 @@
 import './results.scss'
+import ReactJson from 'react-json-view';
 
-function Results ({ data }) {
-  return(
-    <section>
-      <span><em>Results</em></span>
-      <pre>{data ? JSON.stringify(data, undefined, 2) : null}</pre>
+function Results({ data }) {
+  return (
+    <section data-testid="results-display">
+      {data ?
+        (<>
+          <span><em>Results</em></span>
+          <ReactJson src={data} />
+        </>) :
+        (<span><em>Waiting on response. . .</em></span>)
+      }
     </section>
   );
 }
