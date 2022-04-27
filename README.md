@@ -9,3 +9,7 @@ My first JS 401 React app. This React-based testing tool will be able to run com
 ## Author
 
 Jeffrey Jenkins
+
+## Credits
+
+- Used the [RJV component](https://www.npmjs.com/package/react-json-view) from npm to display pretty JSON.
