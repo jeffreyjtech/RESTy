@@ -19,7 +19,7 @@ function App() {
 
   // function which performs API call and sets data goes here
 
-  const handleSubmit = (requestParams) => {
+  const handleParams = (requestParams) => {
     // mock output
     const callApiData = {
       count: 2,
@@ -37,7 +37,7 @@ function App() {
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleSubmit={handleSubmit} />
+      <Form handleParams={handleParams} />
       <Results data={data} />
       <Footer />
     </>

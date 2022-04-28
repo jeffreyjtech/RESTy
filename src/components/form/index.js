@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './form.scss';
 
-function Form({ handleSubmit }) {
+function Form({ handleParams }) {
   let [method, setMethod] = useState('get')
 
   const handleMethod = (e) => {
@@ -15,7 +15,7 @@ function Form({ handleSubmit }) {
       method: 'GET',
       url: 'https://pokeapi.co/api/v2/pokemon',
     };
-    handleSubmit(formData);
+    handleParams(formData);
   }
 
   const methodArray = ['get', 'post', 'put', 'delete'];
