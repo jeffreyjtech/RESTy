@@ -4,9 +4,10 @@ My first JS 401 React app. This React-based testing tool will provide a web-base
 
 ## [Deployed Site](https://jeffreyjtech.github.io/resty/)
 
-## Current UML
+## Current UML (Lab 28)
 
-![My UML showing how props and state are being used in the Lab 27 version](./assets/lab-27-uml.jpg)
+![My UML showing how props and state are being used in the Lab 28 version](./assets/lab-28-uml.jpg)
+
 
 ## Author
 
@@ -21,3 +22,7 @@ Jeffrey Jenkins
 ### Lab 26
 
 ![My UML showing how props and state are being used in the Lab 26 version](./assets/lab-26-uml.jpg)
+
+### Lab 27
+
+![My UML showing how props and state are being used in the Lab 27 version](./assets/lab-27-uml.jpg)
