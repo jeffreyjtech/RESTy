@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import './app.scss';
 
@@ -15,21 +16,22 @@ function App() {
   let [data, setData] = useState(null);
   let [requestParams, setRequestParams] = useState({});
   
-  // useEffect which triggers and API call goes here
+  useEffect(() => {
+    callApi(requestParams)
+  }, [requestParams]);
 
-  // function which performs API call and sets data goes here
+  const callApi = async (params) => {
+    const response = await axios({
+      method: params.method,
+      url: params.url,
+      data: params?.data
+    })
+    setData(response.data);
+  }
 
-  const handleParams = (requestParams) => {
+  const handleParams = (formParams) => {
     // mock output
-    const callApiData = {
-      count: 2,
-      results: [
-        { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-        { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-      ],
-    };
-    setData(callApiData);
-    setRequestParams(requestParams);
+    setRequestParams(formParams);
   }
 
   return (
