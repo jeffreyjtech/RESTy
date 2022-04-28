@@ -30,7 +30,6 @@ function App() {
   }
 
   const handleParams = (formParams) => {
-    // mock output
     setRequestParams(formParams);
   }
 
