@@ -11,12 +11,16 @@ function Form({ handleParams }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = {
-      method,
-      url: e.target.url.value,
-      data: e.target?.data?.value
-    };
-    handleParams(formData);
+    try {
+      const formData = {
+        method,
+        url: e.target.url.value,
+        data: e.target?.data?.value
+      };
+      handleParams(formData);
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const methodArray = ['get', 'post', 'put', 'delete'];
@@ -43,11 +47,11 @@ function Form({ handleParams }) {
       <form onSubmit={handleSubmit}>
         <label>
           <span>URL: </span>
-          <input name='url' type='text' />
+          <input name='url' type='text' data-testid='url-input' />
           <button type="submit" data-testid='go-button'>GO!</button>
         </label>
         {method === 'post' || method === 'put' ?
-          <label className='reqJson'><textarea name="data" /></label> :
+          <label className='reqJson'><textarea name="data" data-testid='data-input' /></label> :
           null}
         <label className="methods">
           {buttons}
