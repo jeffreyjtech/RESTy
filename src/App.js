@@ -17,16 +17,22 @@ function App() {
   let [requestParams, setRequestParams] = useState({});
   
   useEffect(() => {
-    callApi(requestParams)
+    if(requestParams?.method && requestParams?.url){
+      callApi(requestParams)
+    }
   }, [requestParams]);
 
   const callApi = async (params) => {
-    const response = await axios({
-      method: params.method,
-      url: params.url,
-      data: params?.data
-    })
-    setData(response.data);
+    try {
+      const response = await axios({
+        method: params.method,
+        url: params.url,
+        data: params?.data
+      })
+      setData(response.data);
+    } catch (error) {
+      setData({error:'Bad response'})
+    }
   }
 
   const handleParams = (formParams) => {
