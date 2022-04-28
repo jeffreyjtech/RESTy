@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import './app.scss';
 
@@ -9,12 +9,17 @@ import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
 
-function App() {
 
+function App() {
+  
   let [data, setData] = useState(null);
   let [requestParams, setRequestParams] = useState({});
+  
+  // useEffect which triggers and API call goes here
 
-  const handleApiCall = (requestParams) => {
+  // function which performs API call and sets data goes here
+
+  const handleSubmit = (requestParams) => {
     // mock output
     const callApiData = {
       count: 2,
@@ -32,7 +37,7 @@ function App() {
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleApiCall={handleApiCall} />
+      <Form handleSubmit={handleSubmit} />
       <Results data={data} />
       <Footer />
     </>
