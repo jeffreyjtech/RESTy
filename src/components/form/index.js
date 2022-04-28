@@ -12,8 +12,9 @@ function Form({ handleParams }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
-      method: 'GET',
-      url: 'https://pokeapi.co/api/v2/pokemon',
+      method,
+      url: e.target.url.value,
+      data: e.target?.data?.value
     };
     handleParams(formData);
   }
@@ -45,12 +46,12 @@ function Form({ handleParams }) {
           <input name='url' type='text' />
           <button type="submit" data-testid='go-button'>GO!</button>
         </label>
+        {method === 'post' || method === 'put' ?
+          <label className='reqJson'><textarea name="data" /></label> :
+          null}
         <label className="methods">
           {buttons}
         </label>
-        {method === 'post' || method === 'put' ?
-          <label className='reqJson'><textarea /></label> :
-          null}
       </form>
     </>
   );
