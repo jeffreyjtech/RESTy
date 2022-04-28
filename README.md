@@ -8,7 +8,6 @@ My first JS 401 React app. This React-based testing tool will provide a web-base
 
 ![My UML showing how props and state are being used in the Lab 28 version](./assets/lab-28-uml.jpg)
 
-
 ## Author
 
 Jeffrey Jenkins
