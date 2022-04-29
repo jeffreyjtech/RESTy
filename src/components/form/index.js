@@ -3,24 +3,25 @@ import './form.scss';
 
 function Form({ handleParams }) {
   let [method, setMethod] = useState('get')
+  let [formData, setFormData] = useState({url: ""})
 
   const handleMethod = (e) => {
     e.preventDefault();
     setMethod(e.target.id);
   }
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    setFormData({
+      method,
+      url: e.target.value,
+      data: e.target?.data?.value
+    });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const formData = {
-        method,
-        url: e.target.url.value,
-        data: e.target?.data?.value
-      };
-      handleParams(formData);
-    } catch (error) {
-      console.error(error)
-    }
+    handleParams(formData);
   }
 
   const methodArray = ['get', 'post', 'put', 'delete'];
@@ -47,7 +48,13 @@ function Form({ handleParams }) {
       <form onSubmit={handleSubmit}>
         <label>
           <span>URL: </span>
-          <input name='url' type='text' data-testid='url-input' />
+          <input 
+            name='url' 
+            type='text' 
+            data-testid='url-input' 
+            onChange={handleChange}
+            value={formData.url}
+          />
           <button type="submit" data-testid='go-button'>GO!</button>
         </label>
         {method === 'post' || method === 'put' ?
