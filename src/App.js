@@ -10,21 +10,26 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
+import History from './components/history';
 
 const initialState = {
   data: null,
-  requestParams: null
+  requestParams: null,
+  requestHistory: [] 
+  // history will be an array of history objects. 
+  // history objects contain the request params and returned data from a request instance
 }
+
 
 function App() {
 
   let [state, dispatch] = useReducer(propReducer, initialState);
 
-  const { requestParams, data } = state;
+  const { requestParams, data, requestHistory } = state;
 
   const updateData = (payload) => dispatch({ propName: 'data', payload });
-
   const updateParams = (payload) => dispatch({ propName: 'requestParams', payload })
+  const addHistory = (payload) => dispatch({ propName: 'requestHistory', payload: [...requestHistory, payload] })
 
   const callApi = async (params) => {
     try {
@@ -34,7 +39,9 @@ function App() {
         data: params?.data
       })
       updateData(response.data);
+      addHistory({ data: response.data, params})
     } catch (error) {
+      console.error(error)
       updateData({ error: 'Bad response' });
     }
   }
@@ -51,7 +58,10 @@ function App() {
       <div>Request Method: {requestParams?.method}</div>
       <div>URL: {requestParams?.url}</div>
       <Form handleParams={updateParams} />
-      <Results data={data} />
+      <div style={{"display": "flex"}}>
+        <Results data={data} />
+        <History requestHistory={requestHistory} />
+      </div>
       <Footer />
     </>
   );
