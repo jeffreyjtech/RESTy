@@ -56,7 +56,7 @@ function App() {
     if (requestParams?.method && requestParams?.url) {
       callApi(requestParams)
     }
-  }, [requestParams]);
+  });
 
   return (
     <>
