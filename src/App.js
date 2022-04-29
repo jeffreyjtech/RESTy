@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import './app.scss';
 
@@ -9,22 +10,33 @@ import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
 
-function App() {
 
+function App() {
+  
   let [data, setData] = useState(null);
   let [requestParams, setRequestParams] = useState({});
+  
+  useEffect(() => {
+    if(requestParams?.method && requestParams?.url){
+      callApi(requestParams)
+    }
+  }, [requestParams]);
 
-  const handleApiCall = (requestParams) => {
-    // mock output
-    const callApiData = {
-      count: 2,
-      results: [
-        { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-        { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-      ],
-    };
-    setData(callApiData);
-    setRequestParams(requestParams);
+  const callApi = async (params) => {
+    try {
+      const response = await axios({
+        method: params.method,
+        url: params.url,
+        data: params?.data
+      })
+      setData(response.data);
+    } catch (error) {
+      setData({error:'Bad response'})
+    }
+  }
+
+  const handleParams = (formParams) => {
+    setRequestParams(formParams);
   }
 
   return (
@@ -32,7 +44,7 @@ function App() {
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleApiCall={handleApiCall} />
+      <Form handleParams={handleParams} />
       <Results data={data} />
       <Footer />
     </>
@@ -40,32 +52,3 @@ function App() {
 }
 
 export default App;
-
-/*
-class App extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-    };
-  }
-
-  callApi = (requestParams) => {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-        { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-      ],
-    };
-    this.setState({ data, requestParams });
-  }
-
-  render() {
-    
-  }
-}
-*/
