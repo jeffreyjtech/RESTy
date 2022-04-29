@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useReducer, useEffect } from 'react';
+import { propReducer } from './reducer';
 import axios from 'axios';
 
 import './app.scss';
@@ -9,18 +10,26 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
+import History from './components/history';
+
+const initialState = {
+  data: null,
+  requestParams: null,
+  requestHistory: [] 
+  // history will be an array of history objects. 
+  // history objects contain the request params and returned data from a request instance
+}
 
 
 function App() {
-  
-  let [data, setData] = useState(null);
-  let [requestParams, setRequestParams] = useState({});
-  
-  useEffect(() => {
-    if(requestParams?.method && requestParams?.url){
-      callApi(requestParams)
-    }
-  }, [requestParams]);
+
+  let [state, dispatch] = useReducer(propReducer, initialState);
+
+  const { requestParams, data, requestHistory } = state;
+
+  const updateData = (payload) => dispatch({ propName: 'data', payload });
+  const updateParams = (payload) => dispatch({ propName: 'requestParams', payload })
+  const addHistory = (payload) => dispatch({ propName: 'requestHistory', payload: [...requestHistory, payload] })
 
   const callApi = async (params) => {
     try {
@@ -29,23 +38,36 @@ function App() {
         url: params.url,
         data: params?.data
       })
-      setData(response.data);
+      updateData(response.data);
+      addHistory({ data: response.data, params})
     } catch (error) {
-      setData({error:'Bad response'})
+      console.error(error)
+      let errorDisplayObject = { 
+        error: error.name, 
+        status: error?.response?.status,
+        requestUrl: error?.request?.responseURL
+      }
+      updateData(errorDisplayObject);
+      addHistory({...errorDisplayObject, params})
     }
   }
 
-  const handleParams = (formParams) => {
-    setRequestParams(formParams);
-  }
+  useEffect(() => {
+    if (requestParams?.method && requestParams?.url) {
+      callApi(requestParams)
+    }
+  });
 
   return (
     <>
       <Header />
-      <div>Request Method: {requestParams.method}</div>
-      <div>URL: {requestParams.url}</div>
-      <Form handleParams={handleParams} />
-      <Results data={data} />
+      <div>Request Method: {requestParams?.method}</div>
+      <div>URL: {requestParams?.url}</div>
+      <Form handleParams={updateParams} />
+      <div style={{"display": "flex"}}>
+        <Results data={data} />
+        <History requestHistory={requestHistory} />
+      </div>
       <Footer />
     </>
   );
