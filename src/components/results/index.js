@@ -7,7 +7,7 @@ function Results({ data }) {
       {data ?
         (<>
           <span><em>Results</em></span>
-          <ReactJson src={data} />
+          <ReactJson src={data} name="response data" />
         </>) :
         (<span><em>Waiting on response. . .</em></span>)
       }
