@@ -1,9 +1,21 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
+import { propReducer } from '../../reducer';
 import './form.scss';
 
+
+const initialState = {
+  formData: {
+    method: 'get',
+    url: '',
+  }
+}
+
 function Form({ handleParams }) {
-  // let [method, setMethod] = useState('get')
-  let [formData, setFormData] = useState({ method: 'get', url: '' })
+
+  let [state, dispatch] = useReducer(propReducer, initialState);
+  const { formData } = state;
+
+  const setFormData = (payload) => dispatch({propName: 'formData', payload});
 
   const handleMethod = (e) => {
     e.preventDefault();
