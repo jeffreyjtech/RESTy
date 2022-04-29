@@ -42,7 +42,13 @@ function App() {
       addHistory({ data: response.data, params})
     } catch (error) {
       console.error(error)
-      updateData({ error: 'Bad response' });
+      let errorDisplayObject = { 
+        error: error.name, 
+        status: error?.response?.status,
+        requestUrl: error?.request?.responseURL
+      }
+      updateData(errorDisplayObject);
+      addHistory({...errorDisplayObject, params})
     }
   }
 
