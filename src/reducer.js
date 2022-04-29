@@ -1,14 +1,22 @@
 
-const reducer = (state, action) => {
-  const { type, payload } = action;
+export const arrayReducer = (state, action) => {
+  const { type, arrayName, payload } = action;
+  let newState = {...state};
   switch (type) {
     case 'ADD':
-      return { ...state, characters: [...state.characters, payload] };
+      newState[arrayName] = [...state[arrayName], payload]
+      return newState;
     case 'REMOVE':
-      return { ...state, characters: state.characters.filter(character => character !== payload) }
+      newState[arrayName] = state[arrayName].filter(element => element !== payload);
+      return newState;
     default:
       return state;
   }
 }
 
-export default reducer;
+export const propReducer = (state, action) => {
+  const { payload, propName } = action;
+  let newState = {...state};
+  newState[propName] = payload; 
+  return newState;
+}
