@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer } from 'react';
 import { propReducer } from './reducer';
 import axios from 'axios';
 
@@ -20,7 +20,6 @@ const initialState = {
   // history objects contain the request params and returned data from a request instance
 }
 
-
 function App() {
 
   let [state, dispatch] = useReducer(propReducer, initialState);
@@ -28,10 +27,15 @@ function App() {
   const { requestParams, data, requestHistory } = state;
 
   const updateData = (payload) => dispatch({ propName: 'data', payload });
-  const updateParams = (payload) => dispatch({ propName: 'requestParams', payload })
+  const updateParams = (payload) => {
+    dispatch({ propName: 'requestParams', payload })
+    if (payload?.method && payload?.url) {   
+      callApi(payload)
+    }
+  }
   const addHistory = (payload) => dispatch({ propName: 'requestHistory', payload: [...requestHistory, payload] })
 
-  const callApi = async (params) => {
+  async function callApi (params) {
     try {
       const response = await axios({
         method: params.method,
@@ -51,12 +55,6 @@ function App() {
       addHistory({...errorDisplayObject, params})
     }
   }
-
-  useEffect(() => {
-    if (requestParams?.method && requestParams?.url) {
-      callApi(requestParams)
-    }
-  });
 
   return (
     <>
